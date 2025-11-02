@@ -1,10 +1,8 @@
 export interface Order {
-  id: string;
-  productId: string;
-  quantity: number;
-  customerDetails: {
-    name: string;
-    email: string;
-    address: string;
-  };
+    id: string;
+    products: Map<string, number>; // productId -> quantity
+    customerDetails: {
+        name: string;
+        address: string;
+    };
 }

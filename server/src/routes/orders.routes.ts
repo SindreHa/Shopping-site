@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { OrdersController } from '../controllers/orders.controller';
+import { ordersController } from '../server';
 
 const router = Router();
-const ordersController = new OrdersController();
 
-router.post('/orders', ordersController.placeOrder);
+router.post('/orders', ordersController.placeOrder.bind(ordersController));
 
 export default router;

@@ -9,7 +9,6 @@ build/
 coverage/
 
 # Server
-server/
 
 # IDE
 .vscode/
