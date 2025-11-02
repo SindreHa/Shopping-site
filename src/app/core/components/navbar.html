@@ -1,14 +1,10 @@
 <nav class="flex justify-center gap-6 items-center bg-gray-800 text-white px-6 py-3">
-    <a
-        class="bg-gray-800 hover:text-yellow-300 transition"
-        routerLinkActive="text-yellow-300"
-        routerLink="/shop"
-        >Shop</a
-    >
-    <a
-        class="bg-gray-800 hover:text-yellow-300 transition"
-        routerLinkActive="text-yellow-300"
-        routerLink="/cart"
-        >{{ cartText$() }}</a
-    >
+    @for (item of navItems$(); track item.id) {
+        <a
+            class="text-xl bg-gray-800 hover:text-yellow-300 transition"
+            routerLinkActive="text-yellow-300"
+            [routerLink]="item.url"
+            >{{ item.title }}</a
+        >
+    }
 </nav>

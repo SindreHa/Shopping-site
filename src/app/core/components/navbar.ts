@@ -2,6 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from '../services/cart.service';
 
+interface NavItem {
+    id: number;
+    title: string;
+    url: string;
+}
+
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.html',
@@ -10,10 +16,16 @@ import { CartService } from '../services/cart.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
-    public cartService = inject(CartService);
+    private cartService = inject(CartService);
 
-    public cartText$ = computed<string>(() => {
-        const numberOfItems = this.cartService.numberOfItemsInCart$();
-        return numberOfItems > 0 ? `Cart (${numberOfItems})` : 'Cart';
+    public navItems$ = computed<NavItem[]>(() => {
+        const numberOfItemsInCart = this.cartService.numberOfItemsInCart$();
+
+        const cartText = numberOfItemsInCart > 0 ? `Cart (${numberOfItemsInCart})` : 'Cart';
+
+        return [
+            { id: 1, title: 'Shop', url: '/shop' },
+            { id: 2, title: cartText, url: '/cart' },
+        ];
     });
 }
