@@ -1,27 +1,50 @@
-<div class="p-6">
-    <h2 class="text-2xl font-bold mb-4">Shopping Cart</h2>
+<h1 class="text-3xl mb-10">Shopping cart</h1>
 
-    @if (emptyCart$()) {
-        <div>Your cart is empty.</div>
-    }
-
-    @for (item of items$(); track item.id) {
-        <div class="flex justify-between items-center border-b py-2">
-            <span>{{ item.product.name }}</span>
-            <span>x {{ item.quantity }}</span>
-            <span>{{ item.product.price * item.quantity | currency: 'NOK' }}</span>
-            <button (click)="remove(item.product.id)" class="text-red-500 hover:underline">
-                Remove
-            </button>
+@if (emptyCart$()) {
+    <div>Your cart is empty.</div>
+} @else {
+    <div
+        class="w-full text-sm text-left rounded-lg border border-2 border-gray-400 overflow-hidden"
+    >
+        <div
+            class="flex text-xs px-3 sm:px-6 text-gray-700 uppercase bg-white border-b border-gray-300 text-right"
+        >
+            <div class="py-3 flex-1 text-left">Product name</div>
+            <div class="py-3 w-20">Quantity</div>
+            <div class="py-3 w-22">Prize</div>
+            <div class="py-3 w-22 hidden sm:block">Total</div>
         </div>
-    }
 
-    @if (!emptyCart$()) {
-        <div class="mt-4 flex justify-between items-center">
-            <p class="text-xl font-semibold">Total: {{ cartTotal$() | currency: 'NOK' }}</p>
-            <button (click)="clear()" class="bg-gray-800 text-white px-4 py-2 rounded">
-                Clear Cart
-            </button>
-        </div>
-    }
-</div>
+        @for (item of items$(); track item.id) {
+            <div
+                class="flex text-right px-3 sm:px-6"
+                [class.bg-white]="$odd"
+                [class.bg-gray-100]="$even"
+            >
+                <div
+                    class="py-4 flex-1 font-medium whitespace-nowrap text-left overflow-hidden text-ellipsis"
+                >
+                    {{ item.product.name }}
+                </div>
+                <div class="py-4 w-20 text-right">
+                    {{ item.quantity }}
+                </div>
+                <div class="py-4 w-22">
+                    {{ item.product.price | currency }}
+                </div>
+                <div class="py-4 w-22 hidden sm:block">
+                    {{ item.product.price * item.quantity | currency }}
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (!emptyCart$()) {
+    <div class="mt-4 flex justify-between items-center">
+        <p class="text-xl font-semibold">Total: {{ cartTotal$() | currency: 'NOK' }}</p>
+        <button (click)="clear()" class="bg-gray-800 text-white px-4 py-2 rounded">
+            Clear Cart
+        </button>
+    </div>
+}

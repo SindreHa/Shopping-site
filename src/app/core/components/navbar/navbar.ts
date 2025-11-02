@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CartService } from '../services/cart.service';
+import { CartService } from '../../services/cart.service';
 
 interface NavItem {
     id: number;
