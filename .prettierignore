@@ -8,6 +8,9 @@ build/
 # Coverage
 coverage/
 
+# Server
+server/
+
 # IDE
 .vscode/
 .idea/
