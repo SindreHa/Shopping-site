@@ -1,32 +1,37 @@
 [
   {
     "id": 1,
-    "name": "Product 1",
+    "name": "TV",
     "price": 29.99,
-    "description": "Description for Product 1"
+    "description": "World's best TV",
+    "stock": 15
   },
   {
     "id": 2,
     "name": "Product 2",
     "price": 49.99,
-    "description": "Description for Product 2"
+    "description": "Description for Product 2",
+    "stock": 4
   },
   {
     "id": 3,
     "name": "Product 3",
     "price": 19.99,
-    "description": "Description for Product 3"
+    "description": "Description for Product 3",
+    "stock": 45
   },
   {
     "id": 4,
     "name": "Product 4",
     "price": 99.99,
-    "description": "Description for Product 4"
+    "description": "Description for Product 4",
+    "stock": 2
   },
   {
     "id": 5,
     "name": "Product 5",
     "price": 39.99,
-    "description": "Description for Product 5"
+    "description": "Description for Product 5",
+    "stock": 17
   }
 ]
