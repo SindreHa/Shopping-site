@@ -7,7 +7,7 @@
         </h5>
         <p class="text-gray-500 dark:text-gray-400">{{ product().description }}</p>
 
-        <div class="flex items-center justify-between items-end pt-2">
+        <div class="flex items-center gap-2 justify-between items-end pt-2">
             <div>
                 <span class="text-3xl font-bold text-gray-900 dark:text-white">{{
                     product().price | currency
@@ -26,6 +26,7 @@
                 </button>
             } @else {
                 <button
+                    (click)="addToCart.emit(product())"
                     class="text-white cursor-pointer text-sm bg-blue-700 hover:bg-blue-800 outline-none font-medium rounded-lg px-5 py-2.5"
                 >
                     Add to cart

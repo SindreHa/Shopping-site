@@ -1,5 +1,5 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 mx-10">
     @for (product of products$(); track product.id) {
-        <app-product [product]="product" />
+        <app-product [product]="product" (addToCart)="addProductToCart($event)" />
     }
 </div>

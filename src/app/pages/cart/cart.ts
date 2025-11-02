@@ -1,23 +1,28 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 
 @Component({
     selector: 'app-cart',
     imports: [CurrencyPipe],
+    providers: [CartService],
     templateUrl: './cart.html',
 })
 export class CartComponent {
     private cartService = inject(CartService);
 
-    public items$ = this.cartService.items$;
-    public total$ = this.cartService.total$;
+    public items$ = this.cartService.getItems$();
 
-    public remove(id: number): void {
-        this.cartService.remove(id);
+    public emptyCart$ = computed(() => this.items$().length === 0);
+    public cartTotal$ = computed<number>(() =>
+        this.items$().reduce((total, item) => total + item.product.price * item.quantity, 0)
+    );
+
+    public remove(id: string): void {
+        this.cartService.removeItem(id);
     }
 
     public clear(): void {
-        this.cartService.clear();
+        this.cartService.clearCart();
     }
 }
