@@ -27,6 +27,7 @@ shopping-site-backend
 ## Installation
 
 1. Clone the repository:
+
    ```
    git clone <repository-url>
    cd shopping-site-backend
@@ -40,6 +41,7 @@ shopping-site-backend
 ## Running the Application
 
 To start the server, run the following command:
+
 ```
 npm start
 ```

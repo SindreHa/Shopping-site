@@ -15,5 +15,5 @@ app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

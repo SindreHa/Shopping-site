@@ -6,7 +6,7 @@ import { ProductComponent } from './product/product';
 @Component({
     selector: 'app-product-list',
     templateUrl: './product-list.html',
-    changeDetection:ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ProductComponent],
     providers: [ProductService],
 })
@@ -15,7 +15,7 @@ export class ProductListComponent implements OnInit {
     private productsRepository = inject(ProductsRepository);
 
     public products$ = this.productsRepository.getProducts();
-    
+
     public ngOnInit(): void {
         this.productsService.fetchProducts();
     }

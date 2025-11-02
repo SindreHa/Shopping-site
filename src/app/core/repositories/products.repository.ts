@@ -1,7 +1,7 @@
 import { Injectable, Signal, signal } from '@angular/core';
 import { Product } from '../models/product.model';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ProductsRepository {
     private products$ = signal<Product[]>([]);
 

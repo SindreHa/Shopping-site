@@ -3,12 +3,11 @@ import { Product } from '../../../core/models/product.model';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-    selector: 'product',
+    selector: 'app-product',
     templateUrl: 'product.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CurrencyPipe],
 })
-
-export class ProductComponent{
+export class ProductComponent {
     public product = input.required<Product>();
 }
