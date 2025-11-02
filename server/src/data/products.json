@@ -1,37 +1,37 @@
 [
   {
-    "id": 1,
-    "name": "TV",
-    "price": 29.99,
-    "description": "World's best TV",
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Samsung 55\" 4K Smart TV",
+    "price": 799.99,
+    "description": "Stunning 55-inch 4K Ultra HD Smart TV with HDR support, built-in streaming apps, and voice control. Experience crystal-clear picture quality and immersive entertainment.",
     "stock": 15
   },
   {
-    "id": 2,
-    "name": "Product 2",
-    "price": 49.99,
-    "description": "Description for Product 2",
-    "stock": 4
+    "id": "b2c3d4e5-f6g7-8901-bcde-f23456789012",
+    "name": "Apple MacBook Air M2",
+    "price": 1199.99,
+    "description": "Lightweight and powerful 13-inch laptop with Apple M2 chip, 8GB RAM, and 256GB SSD. Perfect for work, creativity, and everyday computing with all-day battery life.",
+    "stock": 8
   },
   {
-    "id": 3,
-    "name": "Product 3",
-    "price": 19.99,
-    "description": "Description for Product 3",
-    "stock": 45
+    "id": "c3d4e5f6-g7h8-9012-cdef-345678901234",
+    "name": "Sony WH-1000XM6 Headphones",
+    "price": 349.99,
+    "description": "Industry-leading noise canceling wireless headphones with exceptional sound quality, 30-hour battery life, and touch sensor controls. Perfect for music lovers and frequent travelers.",
+    "stock": 25
   },
   {
-    "id": 4,
-    "name": "Product 4",
-    "price": 99.99,
-    "description": "Description for Product 4",
-    "stock": 2
+    "id": "d4e5f6g7-h8i9-0123-defg-456789012345",
+    "name": "iPhone 16 Pro 128GB",
+    "price": 999.99,
+    "description": "Latest iPhone with titanium design, A18 Pro chip, and advanced camera system. Features USB-C, Action Button, and incredible performance for photography and gaming.",
+    "stock": 12
   },
   {
-    "id": 5,
-    "name": "Product 5",
-    "price": 39.99,
-    "description": "Description for Product 5",
-    "stock": 17
+    "id": "e5f6g7h8-i9j0-1234-efgh-567890123456",
+    "name": "Nintendo Switch OLED",
+    "price": 349.99,
+    "description": "Enhanced gaming console with vibrant 7-inch OLED screen, improved audio, and 64GB internal storage. Enjoy gaming at home or on the go with this versatile system.",
+    "stock": 20
   }
 ]
