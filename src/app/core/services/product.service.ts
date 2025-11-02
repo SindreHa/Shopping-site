@@ -23,4 +23,8 @@ export class ProductService {
     public fetchProducts(): void {
         this.productsResource.reload();
     }
+
+    public getProducts$() {
+        return this.productsRepository.products$();
+    }
 }
