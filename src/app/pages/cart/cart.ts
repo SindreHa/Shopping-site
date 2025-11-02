@@ -12,11 +12,9 @@ export class CartComponent {
     private cartService = inject(CartService);
 
     public items$ = this.cartService.getItems$();
+    public cartTotal$ = this.cartService.cartTotal$;
 
     public emptyCart$ = computed(() => this.items$().length === 0);
-    public cartTotal$ = computed<number>(() =>
-        this.items$().reduce((total, item) => total + item.product.price * item.quantity, 0)
-    );
 
     public remove(id: string): void {
         this.cartService.removeItem(id);
