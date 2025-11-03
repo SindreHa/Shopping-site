@@ -15,20 +15,8 @@
             }
         </div>
 
-        @if (outOfStock$()) {
-            <button
-                disabled="true"
-                class="text-gray-400 cursor-not-allowed text-sm bg-gray-200 outline-none font-medium rounded-lg px-5 py-2.5"
-            >
-                Out of stock
-            </button>
-        } @else {
-            <button
-                (click)="addToCart.emit(product())"
-                class="text-white cursor-pointer text-md bg-blue-700 hover:bg-blue-800 outline-none font-medium rounded-lg px-5 py-2.5"
-            >
-                Add to cart
-            </button>
-        }
+        <button appCommonButton [disabled]="outOfStock$()" (click)="addToCart.emit(product())">
+            {{ buttonText$() }}
+        </button>
     </div>
 </div>

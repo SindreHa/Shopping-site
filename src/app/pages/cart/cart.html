@@ -43,7 +43,7 @@
                     <span class="px-2">{{ item.quantity }}</span>
                     <button
                         (click)="updateQuantity(item.product.id, 1)"
-                        class="bg-gray-300 cursor-pointer  px-2 rounded-r hover:bg-blue-600 hover:text-white"
+                        class="bg-gray-300 cursor-pointer px-2 rounded-r hover:bg-blue-600 hover:text-white"
                     >
                         +
                     </button>
@@ -80,11 +80,6 @@
 @if (!emptyCart$()) {
     <div class="mt-4 flex justify-between items-center">
         <p class="text-xl font-semibold">Total: {{ cartTotal$() | currency }}</p>
-        <button
-            (click)="clear()"
-            class="cursor-pointer bg-red-900 hover:bg-red-700 transition text-white px-4 py-2 rounded"
-        >
-            Clear Cart
-        </button>
+        <button appCommonButton [variant]="'DESTRUCTIVE'" (click)="clear()">Clear Cart</button>
     </div>
 }

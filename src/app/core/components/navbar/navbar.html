@@ -10,21 +10,18 @@
             <div class="text-md font-bold text-blue-700 flex-grow flex gap-2">
                 @for (item of navItems$(); track item.id) {
                     <button
+                        routerLinkActive
+                        #activeRoute="routerLinkActive"
+                        appCommonButton
+                        [variant]="activeRoute.isActive ? 'PROMINENT' : 'SUBTLE'"
                         [routerLink]="item.url"
-                        routerLinkActive="bg-blue-700 text-white"
-                        class="block cursor-pointer inline-block hover:text-white px-4 py-2 rounded hover:bg-blue-700 transition"
                     >
                         {{ item.title }}
                     </button>
                 }
             </div>
 
-            <button
-                href="#"
-                class="block font-bold text-blue-700 cursor-pointer inline-block hover:text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            >
-                Sign in
-            </button>
+            <button appCommonButton [variant]="'SUBTLE'">Sign in</button>
         </div>
     </div>
 </nav>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+import { CommonButtonDirective } from '../../directives/button/button.directive';
 
 interface NavItem {
     id: number;
@@ -11,7 +12,7 @@ interface NavItem {
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.html',
-    imports: [RouterLink, RouterLinkActive],
+    imports: [RouterLink, RouterLinkActive, CommonButtonDirective],
     providers: [CartService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

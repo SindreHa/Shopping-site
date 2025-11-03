@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
+import { CommonButtonDirective } from '../../core/directives/button/button.directive';
 
 @Component({
     selector: 'app-cart',
-    imports: [CurrencyPipe],
+    imports: [CurrencyPipe, CommonButtonDirective],
     providers: [CartService],
     templateUrl: './cart.html',
 })
