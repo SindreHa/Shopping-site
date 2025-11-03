@@ -17,52 +17,12 @@
         </div>
 
         @for (item of items$(); track item.id) {
-            <div
-                class="flex text-right pl-3 sm:pl-5 sm:pr-1"
-                [class.bg-white]="$odd"
-                [class.bg-gray-100]="$even"
-            >
-                <div
-                    class="py-4 flex-1 font-medium whitespace-nowrap text-left overflow-hidden text-ellipsis"
-                >
-                    {{ item.product.name }}
-                </div>
-                <div class="py-4 w-22 text-center">
-                    <button
-                        [disabled]="item.quantity === 1"
-                        [class.hover:bg-blue-600]="item.quantity > 1"
-                        [class.hover:text-white]="item.quantity > 1"
-                        [class.bg-gray-200]="item.quantity === 1"
-                        [class.bg-gray-300]="item.quantity > 1"
-                        [class.cursor-pointer]="item.quantity > 1"
-                        (click)="adjustProductQuantity(item.product.id, -1)"
-                        class="text-gray-800 px-2 rounded-l"
-                    >
-                        -
-                    </button>
-                    <span class="px-2">{{ item.quantity }}</span>
-                    <button
-                        (click)="adjustProductQuantity(item.product.id, 1)"
-                        class="bg-gray-300 cursor-pointer px-2 rounded-r hover:bg-blue-600 hover:text-white"
-                    >
-                        +
-                    </button>
-                </div>
-                <div class="py-4 w-22">
-                    {{ item.product.price | currency }}
-                </div>
-                <div class="py-4 w-22 hidden sm:block">
-                    {{ item.product.price * item.quantity | currency }}
-                </div>
-                <div class="py-4 w-10 text-center">
-                    <button
-                        (click)="removeItem(item.id)"
-                        class="h-full w-full block cursor-pointer text-md text-red-600 hover:text-red-800 font-bold"
-                    >
-                        &times;
-                    </button>
-                </div>
-            </div>
+            <app-cart-item
+                [item]="item"
+                (remove)="removeItem(item.id)"
+                (adjustQuantity)="adjustProductQuantity(item.product.id, $event)"
+                [componentClasses]="$odd ? 'bg-white' : 'bg-gray-100'"
+            />
         }
 
         <div
