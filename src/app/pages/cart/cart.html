@@ -1,7 +1,7 @@
 <h1 class="text-3xl mb-10">Shopping cart</h1>
 
 @if (emptyCart$()) {
-    <div>Your cart is empty.</div>
+    <p>Your cart is empty.</p>
 } @else {
     <div
         class="w-full text-sm text-left rounded-lg border border-2 border-gray-400 overflow-hidden"
@@ -9,11 +9,11 @@
         <div
             class="flex text-xs pl-3 sm:pl-5 sm:pr-1 text-gray-700 uppercase bg-white border-b border-gray-300 text-right"
         >
-            <div class="py-3 flex-1 text-left">Product name</div>
-            <div class="py-3 w-22 text-center">Quantity</div>
-            <div class="py-3 w-22">Prize</div>
-            <div class="py-3 w-22 hidden sm:block">Total</div>
-            <div class="py-3 w-10"></div>
+            <p class="py-3 flex-1 text-left">Product name</p>
+            <p class="py-3 w-22 text-center">Quantity</p>
+            <p class="py-3 w-22">Prize</p>
+            <p class="py-3 w-22 hidden sm:block">Total</p>
+            <p class="py-3 w-10"></p>
         </div>
 
         @for (item of items$(); track item.id) {
@@ -28,11 +28,11 @@
         <div
             class="flex border-t border-gray-300 pl-3 sm:pl-5 sm:pr-1 text-gray-700 uppercase bg-white border-b border-gray-300 text-right"
         >
-            <div class="py-2 flex-1 text-left"></div>
-            <div class="py-2 w-22 text-center">{{ numberOfItemsInCart$() }}</div>
-            <div class="py-2 w-22"></div>
-            <div class="py-2 w-22 hidden sm:block">{{ cartTotal$() | currency }}</div>
-            <div class="py-2 w-10"></div>
+            <p class="py-2 flex-1 text-left"></p>
+            <p class="py-2 w-22 text-center">{{ numberOfItemsInCart$() }}</p>
+            <p class="py-2 w-22"></p>
+            <p class="py-2 w-22 hidden sm:block">{{ cartTotal$() | currency }}</p>
+            <p class="py-2 w-10"></p>
         </div>
     </div>
 }
