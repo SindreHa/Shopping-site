@@ -38,8 +38,9 @@
 }
 
 @if (!emptyCart$()) {
-    <div class="mt-4 flex justify-between items-center">
-        <p class="text-xl font-semibold">Total: {{ cartTotal$() | currency }}</p>
+    <div class="mt-4 flex gap-3 items-center">
+        <p class="text-xl flex-1 font-semibold">Total: {{ cartTotal$() | currency }}</p>
+        <button appCommonButton (click)="placeOrder()">Place Order</button>
         <button appCommonButton [variant]="'DESTRUCTIVE'" (click)="clear()">Clear Cart</button>
     </div>
 }

@@ -1,4 +1,4 @@
-import { Order } from '../models/order.model';
+import { PlaceOrderRequest } from '../models/order.model';
 import { ProductsController } from './products.controller';
 
 export class OrdersController {
@@ -9,18 +9,18 @@ export class OrdersController {
     }
 
     public placeOrder(req: any, res: any): void {
-        const orderData: Order = req.body;
+        const orderData: PlaceOrderRequest = req.body;
 
-        if (!orderData.products || !orderData.customerDetails) {
+        if (!orderData.items || !orderData.customerDetails) {
             res.status(400).json({
-                message: 'Invalid order data. Missing products or customerDetails.',
+                message: 'Invalid order data. Missing items or customerDetails.',
             });
             return;
         }
 
-        const { products } = orderData;
+        const { items, customerDetails } = orderData;
 
-        for (const [productId, quantity] of products.entries()) {
+        for (const { productId, quantity } of items) {
             if (!this.productsController.checkAvailability(productId, quantity)) {
                 const currentStock = this.productsController.getProductStock(productId);
                 if (currentStock == null) {
@@ -29,6 +29,7 @@ export class OrdersController {
                 }
                 res.status(400).json({
                     message: 'Insufficient stock',
+                    productId,
                     availableStock: currentStock,
                     requestedQuantity: quantity,
                 });
@@ -40,10 +41,10 @@ export class OrdersController {
                 res.status(500).json({ message: 'Failed to update product stock' });
                 return;
             }
-
-            res.status(201).json({
-                message: 'Order placed successfully',
-            });
         }
+
+        res.status(201).json({
+            message: 'Order placed successfully for customer ' + customerDetails.name,
+        });
     }
 }

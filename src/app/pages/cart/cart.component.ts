@@ -3,14 +3,17 @@ import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 import { CommonButtonDirective } from '../../core/directives/button/button.directive';
 import { CartItemComponent } from './cart-item/cart-item.component';
+import { OrderApiService } from '../../api/service/order-api.service';
+import { take } from 'rxjs';
 
 @Component({
     selector: 'app-cart',
     imports: [CurrencyPipe, CommonButtonDirective, CartItemComponent],
-    providers: [CartService],
+    providers: [CartService, OrderApiService],
     templateUrl: './cart.component.html',
 })
 export class CartComponent {
+    private orderApiService = inject(OrderApiService);
     private cartService = inject(CartService);
 
     public items$ = this.cartService.getItems$();
@@ -25,6 +28,26 @@ export class CartComponent {
 
     public removeItem(id: string): void {
         this.cartService.removeItem(id);
+    }
+
+    public placeOrder(): void {
+        const customerDetails = {
+            name: 'Ola Nordmann',
+            address: 'Storgata 1, 0123 Oslo',
+        };
+
+        this.orderApiService
+            .submitOrderFromCart(customerDetails, this.items$())
+            .pipe(take(1))
+            .subscribe({
+                next: () => {
+                    this.cartService.clearCart();
+                    console.log('Order placed successfully!');
+                },
+                error: err => {
+                    console.error('Order failed:', err);
+                },
+            });
     }
 
     public clear(): void {

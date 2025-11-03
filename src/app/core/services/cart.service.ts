@@ -9,7 +9,7 @@ export class CartService {
     private persistentCartService = inject(PersistentCartService);
     private cartRepository = inject(CartRepository);
 
-    public numberOfItemsInCart$ = computed(() => {
+    public numberOfItemsInCart$ = computed<number>(() => {
         const items = this.getItems$();
         const totalNumberOfItems = items().reduce((sum, item) => sum + item.quantity, 0);
         return totalNumberOfItems;
