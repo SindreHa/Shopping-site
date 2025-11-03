@@ -2,9 +2,11 @@ import { Injectable, Signal, computed, inject } from '@angular/core';
 import { CartRepository } from '../repositories/cart.repository';
 import { CartItem } from '../models/cart-item.model';
 import { Product } from '../models/product.model';
+import { PersistentCartService } from './persistent-cart.service';
 
 @Injectable()
 export class CartService {
+    private persistentCartService = inject(PersistentCartService);
     private cartRepository = inject(CartRepository);
 
     public addItem(product: Product): void {
@@ -37,13 +39,7 @@ export class CartService {
 
         if (existing) {
             const newQuantity = existing.quantity + delta;
-            if (newQuantity > 0) {
-                this.cartRepository.updateItemQuantity(existing.id, newQuantity);
-            }
-
-            if (newQuantity === 0) {
-                this.cartRepository.removeItem(id);
-            }
+            this.cartRepository.updateItemQuantity(existing.id, newQuantity);
         }
     }
 
@@ -51,11 +47,13 @@ export class CartService {
         const existing = this.cartRepository.items().find(cartItem => cartItem.product.id === id);
 
         if (existing) {
+            this.persistentCartService.clear();
             this.cartRepository.removeItem(id);
         }
     }
 
     public clearCart(): void {
+        this.persistentCartService.clear();
         this.cartRepository.clearCart();
     }
 }

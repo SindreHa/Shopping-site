@@ -35,6 +35,10 @@ export class CartRepository {
         this._items$.update(items => items.filter(item => item.product.id !== id));
     }
 
+    public setItems(items: CartItem[]): void {
+        this._items$.set(items);
+    }
+
     public clearCart(): void {
         this._items$.set([]);
     }
