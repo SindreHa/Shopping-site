@@ -1,4 +1,4 @@
-export interface PlaceOrderRequest {
+export interface OrderSubmissionDTO {
     items: OrderItem[];
     customerDetails: CustomerDetails;
 }

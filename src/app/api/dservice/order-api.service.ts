@@ -3,22 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { CustomerDetails, OrderItem, OrderSubmissionDTO } from '../model/order.model';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Observable } from 'rxjs';
-import { API_URL } from '../../app.config';
 
 @Injectable()
 export class OrderApiService {
     private httpClient = inject(HttpClient);
 
+    private readonly API_URL = 'http://localhost:3000/api';
+
     public submitOrderFromCart(
         customerDetails: CustomerDetails,
         cartItems: CartItem[]
     ): Observable<void> {
-        const orderSubmission: OrderSubmissionDTO = {
+        const orderRequest: OrderSubmissionDTO = {
             items: this.mapCartItemsToOrderItems(cartItems),
             customerDetails,
         };
 
-        return this.httpClient.post<void>(`${API_URL}/orders`, orderSubmission);
+        return this.httpClient.post<void>(`${this.API_URL}/orders`, orderRequest);
     }
 
     private mapCartItemsToOrderItems(cartItems: CartItem[]): OrderItem[] {
