@@ -1,26 +1,21 @@
-import { httpResource } from '@angular/common/http';
-import { Product } from '../models/product.model';
-import { effect, inject, Injectable } from '@angular/core';
+import { ProductsApiService } from '../../api/service/products-api.service';
 import { ProductsRepository } from '../repositories/products.repository';
-import { API_URL } from '../../app.config';
+import { effect, inject, Injectable } from '@angular/core';
 
 @Injectable()
 export class ProductService {
     private productsRepository = inject(ProductsRepository);
-
-    private productsResource = httpResource<Product[]>(() => `${API_URL}/products`, {
-        defaultValue: [],
-    });
+    private productsApiService = inject(ProductsApiService);
 
     constructor() {
         effect(() => {
-            const products = this.productsResource.value();
+            const products = this.productsApiService.productsResource$.value();
             this.productsRepository.setProducts(products);
         });
     }
 
     public fetchProducts(): void {
-        this.productsResource.reload();
+        this.productsApiService.fetchProducts();
     }
 
     public getProducts$() {

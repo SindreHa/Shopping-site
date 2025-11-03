@@ -4,13 +4,14 @@ import { ProductComponent } from './product/product.component';
 import { Product } from '../../core/models/product.model';
 import { CartService } from '../../core/services/cart.service';
 import { Title } from '@angular/platform-browser';
+import { ProductsApiService } from '../../api/service/products-api.service';
 
 @Component({
     selector: 'app-product-list',
     templateUrl: './product-list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ProductComponent],
-    providers: [ProductService, CartService],
+    providers: [ProductService, ProductsApiService, CartService],
 })
 export class ProductListComponent implements OnInit {
     private productsService = inject(ProductService);
