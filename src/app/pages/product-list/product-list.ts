@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ProductsRepository } from '../../core/repositories/products.repository';
 import { ProductService } from '../../core/services/product.service';
 import { ProductComponent } from './product/product';
 import { Product } from '../../core/models/product.model';
@@ -15,7 +14,6 @@ import { CartService } from '../../core/services/cart.service';
 export class ProductListComponent implements OnInit {
     private productsService = inject(ProductService);
     private cartService = inject(CartService);
-    private productsRepository = inject(ProductsRepository);
 
     public products$ = this.productsService.getProducts$();
 
@@ -24,6 +22,6 @@ export class ProductListComponent implements OnInit {
     }
 
     public addProductToCart(product: Product): void {
-        this.cartService.addItem(product);
+        this.cartService.addProductToCart(product);
     }
 }

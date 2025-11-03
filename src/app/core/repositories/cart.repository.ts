@@ -32,7 +32,7 @@ export class CartRepository {
     }
 
     public removeItem(id: string): void {
-        this._items$.update(items => items.filter(item => item.product.id !== id));
+        this._items$.update(items => items.filter(item => item.id !== id));
     }
 
     public setItems(items: CartItem[]): void {

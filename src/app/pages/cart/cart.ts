@@ -22,8 +22,8 @@ export class CartComponent {
         this.cartService.removeItem(id);
     }
 
-    public updateQuantity(id: string, delta: 1 | -1): void {
-        this.cartService.updateQuantity(id, delta);
+    public adjustProductQuantity(id: string, delta: 1 | -1): void {
+        this.cartService.updateProductQuantity(id, delta);
     }
 
     public removeItem(id: string): void {

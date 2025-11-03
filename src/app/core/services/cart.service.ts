@@ -9,7 +9,18 @@ export class CartService {
     private persistentCartService = inject(PersistentCartService);
     private cartRepository = inject(CartRepository);
 
-    public addItem(product: Product): void {
+    public numberOfItemsInCart$ = computed(() => {
+        const items = this.getItems$();
+        const totalNumberOfItems = items().reduce((sum, item) => sum + item.quantity, 0);
+        return totalNumberOfItems;
+    });
+
+    public cartTotal$ = computed<number>(() => {
+        const items = this.getItems$();
+        return items().reduce((total, item) => total + item.product.price * item.quantity, 0);
+    });
+
+    public addProductToCart(product: Product): void {
         const existing = this.cartRepository.items().find(p => p.product.id === product.id);
 
         if (existing) {
@@ -23,19 +34,10 @@ export class CartService {
         return this.cartRepository.items$();
     }
 
-    public numberOfItemsInCart$ = computed(() => {
-        const items = this.getItems$();
-        const totalNumberOfItems = items().reduce((sum, item) => sum + item.quantity, 0);
-        return totalNumberOfItems;
-    });
-
-    public cartTotal$ = computed<number>(() => {
-        const items = this.getItems$();
-        return items().reduce((total, item) => total + item.product.price * item.quantity, 0);
-    });
-
-    public updateQuantity(id: string, delta: 1 | -1): void {
-        const existing = this.cartRepository.items().find(cartItem => cartItem.product.id === id);
+    public updateProductQuantity(productId: string, delta: 1 | -1): void {
+        const existing = this.cartRepository
+            .items()
+            .find(cartItem => cartItem.product.id === productId);
 
         if (existing) {
             const newQuantity = existing.quantity + delta;
@@ -44,7 +46,7 @@ export class CartService {
     }
 
     public removeItem(id: string): void {
-        const existing = this.cartRepository.items().find(cartItem => cartItem.product.id === id);
+        const existing = this.cartRepository.items().find(cartItem => cartItem.id === id);
 
         if (existing) {
             this.persistentCartService.clear();
