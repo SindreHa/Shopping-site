@@ -6,7 +6,7 @@ A modern e-commerce demo built with Angular 20+ featuring standalone components,
 ## TODO's
 - [x] Express backend with endpoints for fetching products and placing orders
 - [x] Angular frontend for viewing products and managing cart with signals based state management
-- [ ] Handle order placing
+- [x] Handle order placing
 - [ ] Setup login for admin/users
 - [ ] Admin tools for managing stock and adding products
 
