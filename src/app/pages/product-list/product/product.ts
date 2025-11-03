@@ -11,7 +11,7 @@ import { CommonButtonDirective } from '../../../core/directives/button/button.di
 })
 export class ProductComponent {
     public product = input.required<Product>();
-    public addToCart = output<Product>();
+    public addToCart = output<void>();
 
     public outOfStock$ = computed<boolean>(() => this.product().stock === 0);
 

@@ -6,6 +6,6 @@
     }
 
     @for (product of products$(); track product.id) {
-        <app-product [product]="product" (addToCart)="addProductToCart($event)" />
+        <app-product [product]="product" (addToCart)="addProductToCart(product)" />
     }
 </div>

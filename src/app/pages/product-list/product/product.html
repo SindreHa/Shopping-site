@@ -15,7 +15,7 @@
             }
         </div>
 
-        <button appCommonButton [disabled]="outOfStock$()" (click)="addToCart.emit(product())">
+        <button appCommonButton [disabled]="outOfStock$()" (click)="addToCart.emit()">
             {{ buttonText$() }}
         </button>
     </div>
