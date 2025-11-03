@@ -13,10 +13,19 @@ export class CartComponent {
 
     public items$ = this.cartService.getItems$();
     public cartTotal$ = this.cartService.cartTotal$;
+    public numberOfItemsInCart$ = this.cartService.numberOfItemsInCart$;
 
     public emptyCart$ = computed(() => this.items$().length === 0);
 
     public remove(id: string): void {
+        this.cartService.removeItem(id);
+    }
+
+    public updateQuantity(id: string, delta: 1 | -1): void {
+        this.cartService.updateQuantity(id, delta);
+    }
+
+    public removeItem(id: string): void {
         this.cartService.removeItem(id);
     }
 

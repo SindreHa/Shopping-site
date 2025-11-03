@@ -32,12 +32,25 @@ export class CartService {
         return items().reduce((total, item) => total + item.product.price * item.quantity, 0);
     });
 
+    public updateQuantity(id: string, delta: 1 | -1): void {
+        const existing = this.cartRepository.items().find(cartItem => cartItem.product.id === id);
+
+        if (existing) {
+            const newQuantity = existing.quantity + delta;
+            if (newQuantity > 0) {
+                this.cartRepository.updateItemQuantity(existing.id, newQuantity);
+            }
+
+            if (newQuantity === 0) {
+                this.cartRepository.removeItem(id);
+            }
+        }
+    }
+
     public removeItem(id: string): void {
         const existing = this.cartRepository.items().find(cartItem => cartItem.product.id === id);
 
-        if (existing && existing.quantity > 1) {
-            this.cartRepository.updateItemQuantity(existing.id, existing.quantity - 1);
-        } else {
+        if (existing) {
             this.cartRepository.removeItem(id);
         }
     }
