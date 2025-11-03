@@ -11,7 +11,7 @@ interface NavItem {
 
 @Component({
     selector: 'app-navbar',
-    templateUrl: './navbar.html',
+    templateUrl: './navbar.component.html',
     imports: [RouterLink, RouterLinkActive, CommonButtonDirective],
     providers: [CartService],
     changeDetection: ChangeDetectionStrategy.OnPush,

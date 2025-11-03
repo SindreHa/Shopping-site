@@ -2,13 +2,13 @@ import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 import { CommonButtonDirective } from '../../core/directives/button/button.directive';
-import { CartItemComponent } from './cart-item/cart-item';
+import { CartItemComponent } from './cart-item/cart-item.component';
 
 @Component({
     selector: 'app-cart',
     imports: [CurrencyPipe, CommonButtonDirective, CartItemComponent],
     providers: [CartService],
-    templateUrl: './cart.html',
+    templateUrl: './cart.component.html',
 })
 export class CartComponent {
     private cartService = inject(CartService);

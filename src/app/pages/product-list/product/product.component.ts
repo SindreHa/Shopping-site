@@ -5,7 +5,7 @@ import { CommonButtonDirective } from '../../../core/directives/button/button.di
 
 @Component({
     selector: 'app-product',
-    templateUrl: 'product.html',
+    templateUrl: 'product.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CurrencyPipe, CommonButtonDirective],
 })

@@ -4,7 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'app-cart-item',
-    templateUrl: './cart-item.html',
+    templateUrl: './cart-item.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CurrencyPipe],
 })

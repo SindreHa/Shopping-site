@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../core/services/product.service';
-import { ProductComponent } from './product/product';
+import { ProductComponent } from './product/product.component';
 import { Product } from '../../core/models/product.model';
 import { CartService } from '../../core/services/cart.service';
 
 @Component({
     selector: 'app-product-list',
-    templateUrl: './product-list.html',
+    templateUrl: './product-list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ProductComponent],
     providers: [ProductService, CartService],
