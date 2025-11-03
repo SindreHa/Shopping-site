@@ -1,21 +1,23 @@
 import { CommonButtonDirective } from '../../core/directives/button/button.directive';
-import { OrderApiService } from '../../api/service/order-api.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { OrderApiService } from '../../api/service/order-api.service';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { CartService } from '../../core/services/cart.service';
+import { CartItem } from '../../core/models/cart-item.model';
 import { Title } from '@angular/platform-browser';
 import { CurrencyPipe } from '@angular/common';
-import { CartItem } from '../../core/models/cart-item.model';
 
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',
-    imports: [CurrencyPipe, CommonButtonDirective, CartItemComponent],
+    imports: [CurrencyPipe, CommonButtonDirective, CartItemComponent, MatSnackBarModule],
     providers: [CartService, OrderApiService],
 })
 export class CartComponent implements OnInit {
     private orderApiService = inject(OrderApiService);
     private cartService = inject(CartService);
+    private snackBar = inject(MatSnackBar);
     private title = inject(Title);
 
     public items$: Signal<CartItem[]> = this.cartService.getItems$();
@@ -45,10 +47,12 @@ export class CartComponent implements OnInit {
         this.orderApiService.submitOrderFromCart(customerDetails, this.items$()).subscribe({
             next: () => {
                 this.cartService.clearCart();
-                console.log('Order placed successfully!');
+                this.snackBar.open('Order placed successfully!', 'Close', { duration: 5000 });
             },
             error: err => {
-                console.error('Order failed:', err);
+                this.snackBar.open('Order failed: ' + err.error.message, 'Close', {
+                    duration: 5000,
+                });
             },
         });
     }
