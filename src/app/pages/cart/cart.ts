@@ -19,10 +19,6 @@ export class CartComponent {
 
     public emptyCart$ = computed(() => this.items$().length === 0);
 
-    public remove(id: string): void {
-        this.cartService.removeItem(id);
-    }
-
     public adjustProductQuantity(id: string, delta: 1 | -1): void {
         this.cartService.updateProductQuantity(id, delta);
     }
