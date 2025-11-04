@@ -11,6 +11,13 @@ A modern e-commerce demo built with Angular 20+ featuring standalone components,
 - [ ] Admin tools for managing stock and adding products
 
 ## Installation
+### Requirements
+
+- **Node.js** ≥ 20.0.0  
+  You can verify your version with:
+  ```bash
+  node -v
+  ```
 
 ### Install Angular App Dependencies
 ```bash
