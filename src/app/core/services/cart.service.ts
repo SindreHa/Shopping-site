@@ -3,11 +3,13 @@ import { CartRepository } from '../repositories/cart.repository';
 import { CartItem } from '../models/cart-item.model';
 import { Product } from '../models/product.model';
 import { PersistentCartService } from './persistent-cart.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class CartService {
     private persistentCartService = inject(PersistentCartService);
     private cartRepository = inject(CartRepository);
+    private snackbar = inject(MatSnackBar);
 
     public numberOfItemsInCart$ = computed<number>(() => {
         const items = this.getItems$();
@@ -27,6 +29,7 @@ export class CartService {
             this.cartRepository.updateItemQuantity(existing.id, existing.quantity + 1);
         } else {
             this.cartRepository.addNewItem(product);
+            this.snackbar.open('Product added to cart', 'Close', { duration: 2000 });
         }
     }
 
