@@ -40,7 +40,11 @@
 @if (!emptyCart$()) {
     <div class="mt-4 flex gap-3 items-center">
         <p class="text-xl flex-1 font-semibold">Total: {{ cartTotal$() | currency }}</p>
-        <button appCommonButton (click)="placeOrder()">Place Order</button>
+        <button appCommonButton (click)="openOrderModal()">Place Order</button>
         <button appCommonButton [variant]="'DESTRUCTIVE'" (click)="clear()">Clear Cart</button>
     </div>
 }
+
+<ng-template cdkPortal #orderSubmitModal>
+    <app-order-submit-modal (submitOrder)="submitOrder($event)" (cancelSubmit)="closeModal()" />
+</ng-template>
