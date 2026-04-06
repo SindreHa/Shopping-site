@@ -1,34 +1,34 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomerDetailsForm } from './model/customer-details-form.modal';
-import { CustomerDetails } from '../../../api/model/order.model';
 import { CommonButtonDirective } from '../../../core/directives/button/button.directive';
+import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
+import { form, FormField, required, submit } from '@angular/forms/signals';
+import { CustomerDetails } from '../../../api/model/order.model';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-order-submit-modal',
     templateUrl: 'order-submit-modal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule, CommonButtonDirective],
+    imports: [ReactiveFormsModule, CommonButtonDirective, FormField],
 })
 export class OrderSubmitModalComponent {
-    private formBuilder = inject(NonNullableFormBuilder);
+    private customerDetails$ = signal<CustomerDetails>({
+        name: '',
+        address: '',
+    });
 
-    public formGroup: FormGroup<CustomerDetailsForm> = this.buildForm();
+    public customerForm = form(this.customerDetails$, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.address);
+    });
 
     public submitOrder = output<CustomerDetails>();
     public cancelSubmit = output<void>();
 
-    public buildForm(): FormGroup<CustomerDetailsForm> {
-        return this.formBuilder.group<CustomerDetailsForm>({
-            name: this.formBuilder.control('', [Validators.required]),
-            address: this.formBuilder.control('', [Validators.required]),
+    public onSubmit(event: Event): void {
+        event.preventDefault();
+        submit(this.customerForm, async () => {
+            this.submitOrder.emit(this.customerForm().value());
         });
-    }
-
-    public onSubmit(): void {
-        if (this.formGroup.valid) {
-            this.submitOrder.emit(this.formGroup.getRawValue());
-        }
     }
 
     public onCancel(): void {

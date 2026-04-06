@@ -1,11 +1,11 @@
 <div class="bg-white p-6 rounded-lg shadow-lg w-96">
     <h2 class="text-xl font-bold mb-4">Customer Details</h2>
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <form (submit)="onSubmit($event)" (keydown.enter)="onSubmit($event)">
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1">
                 Name:
                 <input
-                    [formControl]="formGroup.controls.name"
+                    [formField]="customerForm.name"
                     class="w-full border rounded px-3 py-2"
                     placeholder="Enter your name"
                 />
@@ -15,7 +15,7 @@
             <label class="block text-sm font-medium mb-1">
                 Address:
                 <input
-                    [formControl]="formGroup.controls.address"
+                    [formField]="customerForm.address"
                     class="w-full border rounded px-3 py-2"
                     placeholder="Enter your address"
                 />
@@ -23,7 +23,7 @@
         </div>
         <div class="flex gap-2 justify-end">
             <button appCommonButton variant="SUBTLE" (click)="onCancel()">Cancel</button>
-            <button appCommonButton type="submit" [disabled]="formGroup.invalid">
+            <button appCommonButton type="submit" [disabled]="customerForm().invalid()">
                 Submit Order
             </button>
         </div>
