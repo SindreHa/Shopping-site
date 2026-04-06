@@ -1,8 +1,8 @@
 # Shopping site
 
-A modern e-commerce demo built with Angular 20+ featuring standalone components, signals-based state management, and clean architecture with repository pattern. Includes product browsing, cart functionality, and reactive UI updates.
+A modern e-commerce demo built with Angular 21+ featuring standalone components, signals-based state management, and clean architecture with repository pattern. Includes product browsing, cart functionality, and reactive UI updates.
 
-**Tech Stack:** Angular 20, Express.js, TypeScript, Signals, Standalone Components
+**Tech Stack:** Angular 21, Express.js, TypeScript, Signals, Standalone Components
 ## TODO's
 - [x] Express backend with endpoints for fetching products and placing orders
 - [x] Angular frontend for viewing products and managing cart with signals based state management
