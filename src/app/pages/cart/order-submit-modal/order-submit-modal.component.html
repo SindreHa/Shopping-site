@@ -22,7 +22,7 @@
             </label>
         </div>
         <div class="flex gap-2 justify-end">
-            <button appCommonButton variant="SUBTLE" (click)="onCancel()">Cancel</button>
+            <button appCommonButton type="button" variant="SUBTLE" (click)="onCancel()">Cancel</button>
             <button appCommonButton type="submit" [disabled]="customerForm().invalid()">
                 Submit Order
             </button>
