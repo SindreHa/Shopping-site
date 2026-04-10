@@ -4,6 +4,7 @@ import {
     Component,
     computed,
     inject,
+    OnDestroy,
     OnInit,
     Signal,
     TemplateRef,
@@ -34,7 +35,7 @@ import { CustomerDetails } from '../../api/model/order.model';
     ],
     providers: [CartService, OrderApiService],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
     private viewContainerRef = inject(ViewContainerRef);
     private orderApiService = inject(OrderApiService);
     private cartService = inject(CartService);
@@ -51,6 +52,10 @@ export class CartComponent implements OnInit {
 
     public ngOnInit(): void {
         this.title.setTitle('Shopping site - Cart');
+    }
+
+    public ngOnDestroy(): void {
+        this.overlayRef?.dispose();
     }
 
     public emptyCart$ = computed<boolean>(() => this.items$().length === 0);
@@ -82,7 +87,7 @@ export class CartComponent implements OnInit {
 
     public closeModal(): void {
         if (this.overlayRef) {
-            this.overlayRef.detach();
+            this.overlayRef.dispose();
             this.overlayRef = null;
         }
     }
