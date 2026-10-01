@@ -3,7 +3,6 @@ import { ProductService } from '../../core/services/product.service';
 import { ProductComponent } from './product/product.component';
 import { Product } from '../../core/models/product.model';
 import { CartService } from '../../core/services/cart.service';
-import { Title } from '@angular/platform-browser';
 import { ProductsApiService } from '../../api/service/products-api.service';
 
 @Component({
@@ -11,17 +10,17 @@ import { ProductsApiService } from '../../api/service/products-api.service';
     templateUrl: './product-list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ProductComponent],
-    providers: [ProductService, ProductsApiService, CartService],
+    providers: [ProductService, ProductsApiService],
 })
 export class ProductListComponent implements OnInit {
     private productsService = inject(ProductService);
     private cartService = inject(CartService);
-    private title = inject(Title);
 
     public products$ = this.productsService.getProducts$();
+    public isLoading$ = this.productsService.isLoading$;
+    public hasError$ = this.productsService.hasError$;
 
     public ngOnInit(): void {
-        this.title.setTitle('Shopping site - Shop');
         this.productsService.fetchProducts();
     }
 

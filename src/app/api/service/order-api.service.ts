@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CustomerDetails, OrderItem, OrderSubmissionDTO } from '../model/order.model';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Observable } from 'rxjs';
-import { API_URL } from '../../app.config';
+import { API_URL } from '../api.config';
 
 @Injectable()
 export class OrderApiService {

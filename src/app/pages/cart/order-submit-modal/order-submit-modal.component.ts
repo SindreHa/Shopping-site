@@ -1,14 +1,14 @@
 import { CommonButtonDirective } from '../../../core/directives/button/button.directive';
-import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { form, FormField, required, submit } from '@angular/forms/signals';
 import { CustomerDetails } from '../../../api/model/order.model';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 
 @Component({
     selector: 'app-order-submit-modal',
     templateUrl: 'order-submit-modal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule, CommonButtonDirective, FormField],
+    imports: [CommonButtonDirective, FormField, CdkTrapFocus],
 })
 export class OrderSubmitModalComponent {
     private customerDetails$ = signal<CustomerDetails>({
@@ -21,6 +21,7 @@ export class OrderSubmitModalComponent {
         required(schemaPath.address);
     });
 
+    public submitting = input<boolean>(false);
     public submitOrder = output<CustomerDetails>();
     public cancelSubmit = output<void>();
 

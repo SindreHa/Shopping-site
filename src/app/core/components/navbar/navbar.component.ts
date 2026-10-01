@@ -13,7 +13,6 @@ interface NavItem {
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     imports: [RouterLink, RouterLinkActive, CommonButtonDirective],
-    providers: [CartService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {

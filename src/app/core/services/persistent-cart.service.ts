@@ -8,16 +8,8 @@ export class PersistentCartService {
     private readonly STORAGE_KEY = 'cart';
 
     constructor() {
-        effect(() => {
-            const items$ = this.cartRepository.items$();
-
-            if (items$().length === 0) {
-                this.loadCartFromStorage();
-                return;
-            }
-
-            this.saveCartToStorage(items$());
-        });
+        this.loadCartFromStorage();
+        effect(() => this.saveCartToStorage(this.cartRepository.items()));
     }
 
     private loadCartFromStorage(): void {

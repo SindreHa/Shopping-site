@@ -5,8 +5,9 @@ import { Product } from '../models/product.model';
 import { PersistentCartService } from './persistent-cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CartService {
+    // Injected so the cart is restored from and saved to localStorage
     private persistentCartService = inject(PersistentCartService);
     private cartRepository = inject(CartRepository);
     private snackbar = inject(MatSnackBar);
@@ -26,6 +27,10 @@ export class CartService {
         const existing = this.cartRepository.items().find(p => p.product.id === product.id);
 
         if (existing) {
+            if (existing.quantity >= product.stock) {
+                this.snackbar.open('No more of this product in stock', 'Close', { duration: 2000 });
+                return;
+            }
             this.cartRepository.updateItemQuantity(existing.id, existing.quantity + 1);
         } else {
             this.cartRepository.addNewItem(product);
@@ -42,23 +47,21 @@ export class CartService {
             .items()
             .find(cartItem => cartItem.product.id === productId);
 
-        if (existing) {
-            const newQuantity = existing.quantity + delta;
+        if (!existing) {
+            return;
+        }
+
+        const newQuantity = existing.quantity + delta;
+        if (newQuantity >= 1 && newQuantity <= existing.product.stock) {
             this.cartRepository.updateItemQuantity(existing.id, newQuantity);
         }
     }
 
     public removeItem(id: string): void {
-        const existing = this.cartRepository.items().find(cartItem => cartItem.id === id);
-
-        if (existing) {
-            this.persistentCartService.clear();
-            this.cartRepository.removeItem(id);
-        }
+        this.cartRepository.removeItem(id);
     }
 
     public clearCart(): void {
-        this.persistentCartService.clear();
         this.cartRepository.clearCart();
     }
 }

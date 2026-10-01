@@ -9,15 +9,16 @@
         <div class="menu flex-grow flex items-end sm:items-center w-auto">
             <div class="text-md font-bold text-blue-700 flex-grow flex gap-2">
                 @for (item of navItems$(); track item.id) {
-                    <button
+                    <a
                         routerLinkActive
                         #activeRoute="routerLinkActive"
+                        ariaCurrentWhenActive="page"
                         appCommonButton
                         [variant]="activeRoute.isActive ? 'PROMINENT' : 'SUBTLE'"
                         [routerLink]="item.url"
                     >
                         {{ item.title }}
-                    </button>
+                    </a>
                 }
             </div>
 

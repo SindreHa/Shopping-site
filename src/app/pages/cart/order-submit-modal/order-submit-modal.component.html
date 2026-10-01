@@ -1,6 +1,13 @@
-<div class="bg-white p-6 rounded-lg shadow-lg w-96">
-    <h2 class="text-xl font-bold mb-4">Customer Details</h2>
-    <form (submit)="onSubmit($event)" (keydown.enter)="onSubmit($event)">
+<div
+    class="bg-white p-6 rounded-lg shadow-lg w-96"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="order-modal-title"
+    cdkTrapFocus
+    cdkTrapFocusAutoCapture
+>
+    <h2 id="order-modal-title" class="text-xl font-bold mb-4">Customer Details</h2>
+    <form (submit)="onSubmit($event)">
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1">
                 Name:
@@ -25,8 +32,12 @@
             <button appCommonButton type="button" variant="SUBTLE" (click)="onCancel()">
                 Cancel
             </button>
-            <button appCommonButton type="submit" [disabled]="customerForm().invalid()">
-                Submit Order
+            <button
+                appCommonButton
+                type="submit"
+                [disabled]="customerForm().invalid() || submitting()"
+            >
+                {{ submitting() ? 'Submitting...' : 'Submit Order' }}
             </button>
         </div>
     </form>

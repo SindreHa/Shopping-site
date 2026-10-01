@@ -1,7 +1,7 @@
 import { Product } from '../../core/models/product.model';
 import { httpResource } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_URL } from '../../app.config';
+import { API_URL } from '../api.config';
 
 @Injectable()
 export class ProductsApiService {

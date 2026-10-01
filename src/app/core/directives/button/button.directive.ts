@@ -13,7 +13,7 @@ const ButtonVariants: Record<keyof typeof ButtonVariantEnum, string> = {
 };
 
 @Directive({
-    selector: 'button[appCommonButton]',
+    selector: 'button[appCommonButton], a[appCommonButton]',
     host: {
         '[class]': 'classes$()',
     },
