@@ -1,63 +1,67 @@
 # Shopping Site Backend
 
-This is the backend for the Shopping Site application, built using Node.js and Express. The backend serves as an API for the Angular frontend, providing endpoints to retrieve products and place orders.
+Express 5 + WebSocket API for the Angular shop. Products and orders are kept in memory and
+persisted atomically to `data/*.json`.
 
-## Project Structure
+## Running
 
-```
-shopping-site-backend
-├── src
-│   ├── server.ts               # Entry point of the backend application
-│   ├── routes                  # Contains route definitions
-│   │   ├── products.routes.ts  # Routes for product-related requests
-│   │   └── orders.routes.ts    # Routes for order-related requests
-│   ├── controllers             # Contains the logic for handling requests
-│   │   ├── products.controller.ts # Controller for product-related logic
-│   │   └── orders.controller.ts   # Controller for order-related logic
-│   ├── models                  # Contains data models
-│   │   ├── product.model.ts    # Model for product data structure
-│   │   └── order.model.ts      # Model for order data structure
-│   └── data                   # Contains data files
-│       └── products.json       # Sample product data in JSON format
-├── package.json                # NPM package configuration
-├── tsconfig.json               # TypeScript configuration
-└── README.md                   # Project documentation
+```sh
+npm install
+npm run dev     # watch mode
+npm start       # plain run
+npm test        # node:test via tsx
+npm run typecheck
 ```
 
-## Installation
+On first start a random admin password is generated and printed once; only its scrypt hash is
+stored (`data/secrets.json`). Delete that file, or set `ADMIN_PASSWORD`, to change it.
 
-1. Clone the repository:
+| Env var                   | Default                 | Purpose                                 |
+| ------------------------- | ----------------------- | --------------------------------------- |
+| `PORT`                    | `3000`                  | HTTP + WebSocket port                   |
+| `CORS_ORIGINS`            | `http://localhost:4200` | Comma-separated allowed browser origins |
+| `ADMIN_USERNAME`          | `admin`                 | Admin login                             |
+| `ADMIN_PASSWORD`          | generated               | Admin password                          |
+| `JWT_SECRET`              | generated + persisted   | Token signing secret                    |
+| `ADMIN_TOKEN_TTL_SECONDS` | `28800`                 | Admin session length                    |
+| `DATA_DIR`                | `./data`                | Where runtime JSON is written           |
 
-   ```
-   git clone <repository-url>
-   cd shopping-site-backend
-   ```
-
-2. Install the dependencies:
-   ```
-   npm install
-   ```
-
-## Running the Application
-
-To start the server, run the following command:
+## Structure
 
 ```
-npm start
+src/
+├── server.ts               # Composition root: wires stores, services, HTTP and WebSocket
+├── app.ts                  # Express app (middleware + routers)
+├── config.ts
+├── controllers/            # HTTP handlers
+├── routes/                 # Router factories
+├── middleware/             # Validation, admin auth, security headers, errors
+├── services/               # Domain logic (products, orders, auth, rate limiting) + tests
+├── realtime/               # WebSocket gateway
+├── infrastructure/         # Event bus, JSON file store
+├── validation/             # zod schemas
+├── models/
+└── data/products.json      # Seed catalog (used when data/products.json doesn't exist)
 ```
 
-The server will be running on `http://localhost:3000`.
+## HTTP API
 
-## API Endpoints
+| Method | Path                | Auth  | Description                                    |
+| ------ | ------------------- | ----- | ---------------------------------------------- |
+| GET    | `/api/health`       |       | Status and online count                        |
+| POST   | `/api/auth/login`   |       | `{ username, password }` → `{ token, ... }`    |
+| GET    | `/api/auth/me`      | admin | Current admin session                          |
+| GET    | `/api/products`     |       | List products                                  |
+| POST   | `/api/products`     | admin | Create product                                 |
+| PUT    | `/api/products/:id` | admin | Replace product                                |
+| DELETE | `/api/products/:id` | admin | Delete product                                 |
+| POST   | `/api/orders`       |       | Place order (prices are taken from the server) |
+| GET    | `/api/orders`       | admin | List orders, newest first                      |
 
-### Products
+Admin routes take `Authorization: Bearer <token>`. Failed logins are rate limited per IP.
 
-- **GET /api/products**: Retrieve a list of all products.
+## WebSocket (`/ws`)
 
-### Orders
-
-- **POST /api/orders**: Place a new order. The request body should include the product ID, quantity, and customer details.
-
-## License
-
-This project is licensed under the MIT License.
+Server → client: `presence`, `product.upserted`, `product.deleted`, `order.placed` (admins only),
+`auth.ok`, `auth.failed`.
+Client → server: `{ "type": "auth", "token": "..." }` to receive admin events, `{ "type": "deauth" }`.

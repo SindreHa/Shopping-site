@@ -1,8 +1,14 @@
-import { Router } from 'express';
-import { ordersController } from '../server';
+import { RequestHandler, Router } from 'express';
+import { OrdersController } from '../controllers/orders.controller';
+import { validateBody } from '../middleware/http.middleware';
+import { placeOrderSchema } from '../validation/schemas';
 
-const router = Router();
-
-router.post('/orders', ordersController.placeOrder.bind(ordersController));
-
-export default router;
+export const ordersRoutes = (
+    controller: OrdersController,
+    requireAdmin: RequestHandler
+): Router => {
+    const router = Router();
+    router.post('/', validateBody(placeOrderSchema), controller.place);
+    router.get('/', requireAdmin, controller.list);
+    return router;
+};

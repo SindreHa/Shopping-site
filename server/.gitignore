@@ -1,0 +1,2 @@
+# Runtime state (products, orders, admin password hash, JWT secret)
+data/

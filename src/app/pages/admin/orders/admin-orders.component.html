@@ -1,0 +1,66 @@
+<div class="grid gap-4 sm:grid-cols-3 mb-6">
+    <div class="bg-white rounded-lg p-4 border-2 border-gray-200">
+        <p class="text-xs uppercase text-gray-500">Revenue</p>
+        <p class="text-2xl font-bold">{{ revenue$() | currency }}</p>
+    </div>
+    <div class="bg-white rounded-lg p-4 border-2 border-gray-200">
+        <p class="text-xs uppercase text-gray-500">Orders</p>
+        <p class="text-2xl font-bold">{{ orders$().length }}</p>
+    </div>
+    <div class="bg-white rounded-lg p-4 border-2 border-gray-200">
+        <p class="text-xs uppercase text-gray-500">Items sold</p>
+        <p class="text-2xl font-bold">{{ itemsSold$() }}</p>
+    </div>
+</div>
+
+<div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-semibold">
+        Orders
+        @if (isLive$()) {
+            <span class="ml-2 text-sm font-normal text-green-700">new orders appear live</span>
+        }
+    </h2>
+    <button appCommonButton variant="SUBTLE" (click)="reload()">Refresh</button>
+</div>
+
+@if (hasError$()) {
+    <p class="text-red-700" role="alert">Could not load orders.</p>
+} @else if (isLoading$() && orders$().length === 0) {
+    <p class="text-gray-500">Loading orders...</p>
+} @else {
+    <ol class="grid gap-3" aria-live="polite">
+        @for (order of orders$(); track order.id) {
+            <li
+                class="bg-white rounded-lg border-2 border-gray-200 p-4"
+                [class.flash-highlight]="liveOrderIds$().has(order.id)"
+            >
+                <div class="flex flex-wrap justify-between gap-2 mb-2">
+                    <div>
+                        <p class="font-semibold">{{ order.customer.name }}</p>
+                        <p class="text-gray-500 text-sm">{{ order.customer.address }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-bold">{{ order.total | currency }}</p>
+                        <p class="text-gray-500 text-xs">
+                            {{ order.createdAt | date: 'medium' }} &middot; #{{
+                                order.id.slice(0, 8)
+                            }}
+                        </p>
+                    </div>
+                </div>
+                <ul class="text-sm text-gray-700 border-t border-gray-200 pt-2">
+                    @for (line of order.lines; track line.productId) {
+                        <li class="flex justify-between">
+                            <span>{{ line.quantity }} &times; {{ line.name }}</span>
+                            <span>{{ line.lineTotal | currency }}</span>
+                        </li>
+                    }
+                </ul>
+            </li>
+        } @empty {
+            <li class="text-gray-500">
+                No orders yet. They will show up here the moment they land.
+            </li>
+        }
+    </ol>
+}

@@ -22,7 +22,30 @@
                 }
             </div>
 
-            <button appCommonButton [variant]="'SUBTLE'">Sign in</button>
+            <div class="flex items-center gap-3">
+                <span
+                    class="flex items-center gap-1.5 text-xs text-gray-500 whitespace-nowrap"
+                    role="status"
+                    [attr.title]="isConnected$() ? 'Live updates on' : 'Reconnecting...'"
+                >
+                    <span
+                        class="h-2 w-2 rounded-full"
+                        [class.bg-green-500]="isConnected$()"
+                        [class.bg-gray-300]="!isConnected$()"
+                    ></span>
+                    @if (online$(); as online) {
+                        {{ online }} {{ online === 1 ? 'shopper' : 'shoppers' }} online
+                    } @else {
+                        offline
+                    }
+                </span>
+
+                @if (isAdmin$()) {
+                    <button appCommonButton variant="SUBTLE" (click)="signOut()">Sign out</button>
+                } @else {
+                    <a appCommonButton variant="SUBTLE" routerLink="/admin/login">Sign in</a>
+                }
+            </div>
         </div>
     </div>
 </nav>

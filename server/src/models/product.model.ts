@@ -5,3 +5,5 @@ export interface Product {
     description: string;
     stock: number;
 }
+
+export type ProductInput = Omit<Product, 'id'>;

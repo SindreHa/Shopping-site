@@ -11,3 +11,19 @@ html {
   ));
 }
 
+@keyframes flash-highlight {
+  from {
+    background-color: rgb(254 240 138);
+  }
+}
+
+.flash-highlight {
+  animation: flash-highlight 2.5s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash-highlight {
+    animation: none;
+  }
+}
+

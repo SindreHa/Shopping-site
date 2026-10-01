@@ -6,12 +6,10 @@ import {
     inject,
     OnDestroy,
     Signal,
-    signal,
     TemplateRef,
     viewChild,
     ViewContainerRef,
 } from '@angular/core';
-import { OrderApiService } from '../../api/service/order-api.service';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { CartService } from '../../core/services/cart.service';
 import { CartItem } from '../../core/models/cart-item.model';
@@ -21,7 +19,7 @@ import { OrderSubmitModalComponent } from './order-submit-modal/order-submit-mod
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { CustomerDetails } from '../../api/model/order.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { filter, finalize } from 'rxjs';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-cart',
@@ -34,11 +32,9 @@ import { filter, finalize } from 'rxjs';
         CdkPortal,
         OrderSubmitModalComponent,
     ],
-    providers: [OrderApiService],
 })
 export class CartComponent implements OnDestroy {
     private viewContainerRef = inject(ViewContainerRef);
-    private orderApiService = inject(OrderApiService);
     private cartService = inject(CartService);
     private snackBar = inject(MatSnackBar);
     private overlay = inject(Overlay);
@@ -49,7 +45,7 @@ export class CartComponent implements OnDestroy {
     public items$: Signal<CartItem[]> = this.cartService.getItems$();
     public cartTotal$: Signal<number> = this.cartService.cartTotal$;
     public numberOfItemsInCart$: Signal<number> = this.cartService.numberOfItemsInCart$;
-    public isSubmitting$ = signal<boolean>(false);
+    public isSubmitting$: Signal<boolean> = this.cartService.isCheckingOut$;
 
     public ngOnDestroy(): void {
         this.overlayRef?.dispose();
@@ -97,26 +93,23 @@ export class CartComponent implements OnDestroy {
         if (this.isSubmitting$()) {
             return;
         }
-        this.isSubmitting$.set(true);
 
-        this.orderApiService
-            .submitOrderFromCart(customerDetails, this.items$())
-            .pipe(finalize(() => this.isSubmitting$.set(false)))
-            .subscribe({
-                next: () => {
-                    this.cartService.clearCart();
-                    this.closeModal();
-                    this.snackBar.open(
-                        'Order placed successfully for ' + customerDetails.name,
-                        'Close',
-                        { duration: 5000 }
-                    );
-                },
-                error: (err: HttpErrorResponse) => {
-                    const reason = err.error?.message ?? 'Could not reach the server';
-                    this.snackBar.open('Order failed: ' + reason, 'Close', { duration: 5000 });
-                },
-            });
+        this.cartService.checkout(customerDetails).subscribe({
+            next: () => {
+                this.closeModal();
+                this.snackBar.open(
+                    'Order placed successfully for ' + customerDetails.name,
+                    'Close',
+                    {
+                        duration: 5000,
+                    }
+                );
+            },
+            error: (err: HttpErrorResponse) => {
+                const reason = err.error?.message ?? 'Could not reach the server';
+                this.snackBar.open('Order failed: ' + reason, 'Close', { duration: 5000 });
+            },
+        });
     }
 
     public clear(): void {

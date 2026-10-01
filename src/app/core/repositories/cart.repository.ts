@@ -18,8 +18,12 @@ export class CartRepository {
     }
 
     public updateItemQuantity(id: string, quantity: number): void {
+        this.updateItem(id, { quantity });
+    }
+
+    public updateItem(id: string, changes: Partial<Omit<CartItem, 'id'>>): void {
         this._items$.update(items =>
-            items.map(item => (item.id === id ? { ...item, quantity } : item))
+            items.map(item => (item.id === id ? { ...item, ...changes } : item))
         );
     }
 
